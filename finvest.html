@@ -300,6 +300,37 @@ button,input,select{touch-action:manipulation;}
 .ios-tip strong{display:block;font-size:13px;color:var(--tm);margin-bottom:4px;}
 .ios-tip p{font-size:12px;color:var(--ts2);line-height:1.55;}
 .ios-tip button{margin-top:10px;border:none;background:var(--ts);color:var(--td);font-size:12px;font-weight:800;border-radius:999px;padding:8px 12px;cursor:pointer;font-family:var(--ff);}
+/* app tour */
+.tour-shield{position:absolute;inset:0;z-index:640;display:none;background:transparent;}
+#tour-spotlight{position:absolute;border-radius:14px;box-shadow:0 0 0 4000px rgba(15,30,28,.72);z-index:641;pointer-events:none;transition:all .45s cubic-bezier(.4,0,.2,1);display:none;}
+.tour-pulse{position:absolute;border-radius:50%;border:2.5px solid var(--t);z-index:642;pointer-events:none;animation:pulseTour 1.4s ease-out infinite;}
+@keyframes pulseTour{0%{transform:scale(1);opacity:.8;}100%{transform:scale(2.4);opacity:0;}}
+#tour-tooltip{position:absolute;z-index:643;width:224px;background:#fff;border-radius:18px;padding:16px 16px 12px;box-shadow:0 14px 44px rgba(0,0,0,.2);transition:all .38s cubic-bezier(.4,0,.2,1);display:none;}
+#tour-tooltip::before{content:'';position:absolute;width:11px;height:11px;background:#fff;transform:rotate(45deg);}
+#tour-tooltip.arr-top::before{bottom:-5px;left:22px;}
+#tour-tooltip.arr-bottom::before{top:-5px;left:22px;}
+#tour-tooltip.arr-right::before{left:-5px;top:22px;}
+#tour-tooltip.arr-left::before{right:-5px;top:22px;}
+#tour-tooltip.arr-center::before{display:none;}
+.tt-step{font-size:10px;font-weight:700;color:var(--t);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px;}
+.tt-title{font-size:15px;font-weight:800;color:var(--tm);margin-bottom:5px;}
+.tt-text{font-size:12px;color:var(--ts2);line-height:1.65;}
+.tt-arrow-hint{display:flex;align-items:center;gap:4px;margin-top:5px;font-size:11px;color:var(--t);font-weight:700;}
+.tt-bottom{display:flex;align-items:center;justify-content:space-between;margin-top:12px;}
+.tt-dots{display:flex;gap:5px;}
+.tt-dot{width:5px;height:5px;border-radius:50%;background:rgba(58,173,168,.22);transition:all .25s;}
+.tt-dot.on{width:15px;border-radius:3px;background:var(--t);}
+.tt-next{border:none;background:var(--t);color:#fff;border-radius:10px;padding:7px 15px;font-size:12px;font-weight:700;font-family:var(--ff);cursor:pointer;}
+.tt-skip{border:none;background:transparent;font-size:11px;color:var(--th);font-family:var(--ff);cursor:pointer;}
+.tour-modal{position:absolute;inset:0;z-index:700;display:none;align-items:center;justify-content:center;background:rgba(15,30,28,.7);backdrop-filter:blur(4px);}
+.tour-card{background:#fff;border-radius:24px;padding:28px 24px;width:286px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.2);animation:popIn .45s cubic-bezier(.34,1.56,.64,1) both;}
+@keyframes popIn{from{transform:scale(.55);opacity:0;}to{transform:scale(1);opacity:1;}}
+.tour-card-icon{width:58px;height:58px;border-radius:18px;background:var(--ts);display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 14px;}
+.tour-card-title{font-size:20px;font-weight:800;color:var(--tm);margin-bottom:6px;}
+.tour-card-sub{font-size:13px;color:var(--ts2);line-height:1.65;margin-bottom:20px;}
+.tour-start{width:100%;border:none;background:var(--t);color:#fff;border-radius:13px;padding:14px;font-size:15px;font-weight:700;font-family:var(--ff);cursor:pointer;box-shadow:0 6px 20px rgba(58,173,168,.38);margin-bottom:10px;}
+.tour-modal-skip{border:none;background:transparent;font-size:12px;color:var(--th);font-family:var(--ff);cursor:pointer;}
+#tour-replay-btn{position:absolute;top:16px;left:50%;transform:translateX(-50%);z-index:500;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border:1px solid rgba(58,173,168,.2);border-radius:99px;padding:7px 18px;font-size:12px;font-weight:700;color:var(--td);cursor:pointer;font-family:var(--ff);display:none;white-space:nowrap;box-shadow:0 4px 16px rgba(58,173,168,.12);}
 .income-shell{background:linear-gradient(180deg,rgba(255,255,255,.9),rgba(255,255,255,.72));border:1.5px solid rgba(58,173,168,.12);border-radius:26px;padding:16px 14px 18px;box-shadow:0 12px 28px rgba(58,173,168,.08);}
 .income-card{background:rgba(255,255,255,.86);border:1px solid rgba(58,173,168,.08);border-radius:22px;padding:14px 14px 16px;box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 8px 24px rgba(58,173,168,.08);}
 .income-label{text-align:center;font-size:13px;font-weight:700;color:var(--t);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px;}
@@ -553,7 +584,7 @@ function NAV(active){return `<div class="bn">
 
 <!-- HOME -->
 <div class="scr act" id="s-home">
-  <div class="htop">
+  <div class="htop" id="tour-zone-header">
     <div class="htr">
       <div>
         <div style="font-size:10px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.06em;" id="ht-greet">Wallet check</div>
@@ -570,7 +601,7 @@ function NAV(active){return `<div class="bn">
       <div style="flex:1;"><div style="font-size:15px;font-weight:800;color:#fff;line-height:1;" id="streak-cnt">No streak yet</div><div style="font-size:10px;color:rgba(255,255,255,.6);margin-top:2px;" id="streak-sub">Start a streak and stop feeding random nonsense.</div></div>
       <button class="stdb" id="streak-btn" onclick="event.stopPropagation();confirmNoSpend()">Confirm today</button>
     </div>
-    <div class="bcard">
+    <div class="bcard" id="tour-zone-balance">
       <div style="display:flex;align-items:center;justify-content:center;margin-bottom:3px;">
         <div style="font-size:10px;color:rgba(255,255,255,.55);text-transform:uppercase;letter-spacing:.08em;">Total Balance</div>
       </div>
@@ -583,7 +614,7 @@ function NAV(active){return `<div class="bn">
   </div>
   <div class="ascr">
     <div class="seclbl">Money Overview</div>
-    <div class="fog">
+    <div class="fog" id="tour-zone-overview">
       <div class="foc tap" onclick="sw('spending')"><div class="fol">Expenses</div><div class="fov neg" id="fo-exp">$0</div><div style="font-size:10px;color:var(--th);margin-top:2px;">This month</div></div>
       <div class="foc tap" onclick="openBalEdit()"><div class="fol">Income</div><div class="fov pos" id="fo-inc">—</div><div style="font-size:10px;color:var(--th);margin-top:2px;">Net monthly</div></div>
       <div class="foc tap" onclick="sw('goals')"><div class="fol">Daily Target</div><div class="fov gld" id="fo-daily">—</div><div style="font-size:10px;color:var(--th);margin-top:2px;" id="fo-daily-s">Set a goal first</div></div>
@@ -612,7 +643,7 @@ function NAV(active){return `<div class="bn">
     <div style="height:10px;"></div>
   </div>
   <div id="nav-home"></div>
-  <button class="fab" onclick="openFab()"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+  <button class="fab" id="tour-zone-fab" onclick="openFab()"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
 </div>
 
 <!-- BUDGET/SPENDING -->
@@ -999,6 +1030,46 @@ function NAV(active){return `<div class="bn">
   <button onclick="dismissInstallTip()">Got it</button>
 </div>
 
+<!-- APP TOUR -->
+<div id="tour-shield" class="tour-shield"></div>
+<div id="tour-spotlight"></div>
+<div class="tour-pulse" id="tour-pulse" style="display:none;width:18px;height:18px;"></div>
+
+<div id="tour-tooltip" class="arr-bottom">
+  <div class="tt-step" id="tour-tt-step">Step 1 of 5</div>
+  <div class="tt-title" id="tour-tt-title">Home dashboard</div>
+  <div class="tt-text" id="tour-tt-text">Your financial hub.</div>
+  <div class="tt-arrow-hint" id="tour-tt-arrow" style="display:none;"></div>
+  <div class="tt-bottom">
+    <div class="tt-dots" id="tour-tt-dots"></div>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <button class="tt-skip" onclick="endTour(true)">Skip</button>
+      <button class="tt-next" onclick="tourNext()"><span id="tour-tt-next-lbl">Next</span> →</button>
+    </div>
+  </div>
+</div>
+
+<div id="tour-welcome" class="tour-modal">
+  <div class="tour-card">
+    <div class="tour-card-icon">🗺️</div>
+    <div class="tour-card-title">Quick app tour</div>
+    <div class="tour-card-sub">We'll show you where everything is — takes about 20 seconds.</div>
+    <button class="tour-start" onclick="startTour()">Start the tour →</button><br/>
+    <button class="tour-modal-skip" onclick="skipTour()">Skip, I'll explore myself</button>
+  </div>
+</div>
+
+<div id="tour-done" class="tour-modal">
+  <div class="tour-card">
+    <div class="tour-card-icon">✅</div>
+    <div class="tour-card-title">You're all set!</div>
+    <div class="tour-card-sub">You know where everything lives. Start tracking your money.</div>
+    <button class="tour-start" onclick="closeDoneTour()">Go to dashboard</button>
+  </div>
+</div>
+
+<button id="tour-replay-btn" onclick="replayTour()">🗺️ Replay tour</button>
+
 </div><!-- /apl -->
 
 <script>
@@ -1152,6 +1223,15 @@ var CTRS = [
 var selCtr = CTRS[0];
 var selWishEmo = '🎯', selPriority = 'need', selCatEmo = '📦';
 var curQuizIdx = 0, quizAnswered = false, scannedRec = null;
+var TOUR_DONE_KEY = 'finvest_tour_done_v1';
+var TOUR_STEPS = [
+  {zone:'tour-zone-balance',pulse:'tour-zone-balance',step:'1 of 5',title:'Home dashboard',text:'Your financial command centre. Balance, spending progress and quick stats all live here.',arrow:'Your balance card',side:'bottom',block:'nearest'},
+  {zone:'nav-home',pulse:null,step:'2 of 5',title:'Navigation bar',text:'Switch between Home, Budget, Learn, Goals and Profile with a single tap.',arrow:'Five sections to explore',side:'top'},
+  {zone:'tour-zone-fab',pulse:'tour-zone-fab',step:'3 of 5',title:'Add transaction',text:'Tap this green + button to log an expense, record income or move money to savings — and earn FinCoins.',arrow:null,side:'left'},
+  {zone:'insights',pulse:null,step:'4 of 5',title:'Smart insights',text:'Quick nudges surface here as you use the app, so the next money move is easier to spot.',arrow:null,side:'top',block:'center'},
+  {zone:'tour-zone-overview',pulse:null,step:'5 of 5',title:'Financial overview',text:'Tap these cards for a quick jump into expenses, income, daily targets and goal progress.',arrow:null,side:'bottom',block:'center'}
+];
+var tourStep = -1, tourActive = false;
 
 // ══════════════════════════════════
 //  UTILS
@@ -1260,6 +1340,7 @@ function enterApp(fromSaved){
   buildCatList(); buildLogCatG(); buildLessons(); renderGoals(); renderCh();
   updateHUD(); updateSpend(); genInsights(); drawDNA(); updateStreakUI(); updatePet(); buildHM(); buildBM();
   persistState();
+  if(!fromSaved) setTimeout(showTourWelcome,650);
 }
 
 // ══════════════════════════════════
@@ -1275,6 +1356,110 @@ function sw(nm){
 }
 function openMod(id){g(id).classList.add('open');}
 function closeMod(id){g(id).classList.remove('open');}
+
+// ══════════════════════════════════
+//  QUICK APP TOUR
+// ══════════════════════════════════
+function isTourDone(){
+  try{return localStorage.getItem(TOUR_DONE_KEY)==='1';}catch(e){return false;}
+}
+function markTourDone(){
+  try{localStorage.setItem(TOUR_DONE_KEY,'1');}catch(e){}
+}
+function showTourWelcome(){
+  if(isTourDone()||!g('tour-welcome'))return;
+  sw('home');
+  var sc=g('s-home').querySelector('.ascr'); if(sc)sc.scrollTop=0;
+  g('tour-replay-btn').style.display='none';
+  g('tour-welcome').style.display='flex';
+}
+function phoneBox(){
+  return document.querySelector('.phone')||g('apl');
+}
+function tourRect(id){
+  var ph=phoneBox(), el=g(id);
+  if(!ph||!el)return null;
+  var pr=ph.getBoundingClientRect(), r=el.getBoundingClientRect();
+  return {top:r.top-pr.top,left:r.left-pr.left,w:r.width,h:r.height,cx:r.left-pr.left+r.width/2,cy:r.top-pr.top+r.height/2};
+}
+function prepareTourStep(idx){
+  sw('home');
+  var s=TOUR_STEPS[idx], el=g(s.zone);
+  if(el&&s.block&&el.scrollIntoView)el.scrollIntoView({block:s.block,behavior:'smooth'});
+  setTimeout(function(){positionTourStep(idx);},s.block?300:40);
+}
+function positionTourStep(idx){
+  var s=TOUR_STEPS[idx], ph=phoneBox();
+  if(!ph)return;
+  var phW=ph.offsetWidth, phH=ph.offsetHeight, pad=8, r=tourRect(s.zone);
+  var shield=g('tour-shield'), sp=g('tour-spotlight'), tp=g('tour-tooltip'), pu=g('tour-pulse');
+  shield.style.display='block'; sp.style.display='block'; tp.style.display='block';
+  if(r){
+    sp.style.cssText='display:block;top:'+(r.top-pad)+'px;left:'+(r.left-pad)+'px;width:'+(r.w+pad*2)+'px;height:'+(r.h+pad*2)+'px;border-radius:14px;';
+  }
+  pu.style.display='none';
+  if(s.pulse){
+    var pr2=tourRect(s.pulse);
+    if(pr2)pu.style.cssText='display:block;width:18px;height:18px;top:'+(pr2.cy-9)+'px;left:'+(pr2.cx-9)+'px;';
+  }
+  se('tour-tt-step','Step '+s.step);
+  se('tour-tt-title',s.title);
+  se('tour-tt-text',s.text);
+  var arrow=g('tour-tt-arrow');
+  if(s.arrow){arrow.style.display='flex';arrow.textContent=s.arrow;}else{arrow.style.display='none';}
+  se('tour-tt-next-lbl',idx===TOUR_STEPS.length-1?'Finish':'Next');
+  var dots=g('tour-tt-dots'); dots.innerHTML='';
+  TOUR_STEPS.forEach(function(_,i){var d=document.createElement('span');d.className='tt-dot'+(i===idx?' on':'');dots.appendChild(d);});
+  var cls={bottom:'arr-top',top:'arr-bottom',left:'arr-right',right:'arr-left',center:'arr-center'};
+  tp.className=cls[s.side]||'arr-bottom';
+  tp.style.opacity='0'; tp.style.transform='translateY(10px)';
+  var ttW=tp.offsetWidth||224, ttH=tp.offsetHeight||165, tx=(phW-ttW)/2, ty=(phH-ttH)/2;
+  if(r&&s.side==='bottom'){tx=Math.max(8,Math.min(r.left,phW-ttW-8));ty=r.top+r.h+12;}
+  else if(r&&s.side==='top'){tx=Math.max(8,Math.min(r.left,phW-ttW-8));ty=r.top-ttH-14;}
+  else if(r&&s.side==='left'){tx=Math.max(8,r.left-ttW-14);ty=Math.max(8,Math.min(r.cy-ttH/2,phH-ttH-8));}
+  else if(r&&s.side==='right'){tx=r.left+r.w+14;ty=Math.max(8,Math.min(r.cy-ttH/2,phH-ttH-8));}
+  ty=Math.max(8,Math.min(ty,phH-ttH-8)); tx=Math.max(8,Math.min(tx,phW-ttW-8));
+  tp.style.left=tx+'px'; tp.style.top=ty+'px';
+  requestAnimationFrame(function(){tp.style.opacity='1';tp.style.transform='translateY(0)';});
+}
+function startTour(){
+  g('tour-welcome').style.display='none';
+  g('tour-done').style.display='none';
+  tourActive=true; tourStep=0;
+  prepareTourStep(0);
+}
+function tourNext(){
+  if(!tourActive)return;
+  tourStep++;
+  if(tourStep>=TOUR_STEPS.length){endTour(false);return;}
+  var tp=g('tour-tooltip'); tp.style.opacity='0'; tp.style.transform='translateY(8px)';
+  setTimeout(function(){prepareTourStep(tourStep);},220);
+}
+function hideTourLayer(){
+  g('tour-shield').style.display='none';
+  g('tour-spotlight').style.cssText='display:none;width:0;height:0;top:0;left:0;';
+  g('tour-pulse').style.display='none';
+  g('tour-tooltip').style.display='none';
+}
+function endTour(skipped){
+  tourActive=false; tourStep=-1; hideTourLayer(); markTourDone();
+  if(skipped){g('tour-replay-btn').style.display='block';return;}
+  g('tour-done').style.display='flex';
+}
+function skipTour(){
+  g('tour-welcome').style.display='none';
+  markTourDone();
+  g('tour-replay-btn').style.display='block';
+}
+function closeDoneTour(){
+  g('tour-done').style.display='none';
+  g('tour-replay-btn').style.display='block';
+}
+function replayTour(){
+  g('tour-replay-btn').style.display='none';
+  startTour();
+}
+window.addEventListener('resize',function(){if(tourActive&&tourStep>=0)positionTourStep(tourStep);});
 
 // ══════════════════════════════════
 //  HUD / LEVEL
